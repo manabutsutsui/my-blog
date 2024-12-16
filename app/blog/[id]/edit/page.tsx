@@ -1,12 +1,12 @@
-import { supabase } from '../../../lib/supabase'
 import { use } from 'react'
 import EditForm from './EditForm'
+import { supabase } from '../../../lib/supabase'
 import type { Post } from '../../../lib/types'
 
-type Props = {
-  params: {
-    id: string
-  }
+type PageProps = {
+  params: Promise<{
+    id: string;
+  }>;
 }
 
 async function getPost(id: string) {
@@ -23,8 +23,8 @@ async function getPost(id: string) {
   return post as Post
 }
 
-export default function EditPage({ params }: Props) {
-  const id = use(Promise.resolve(params.id))
+export default function EditPage({ params }: PageProps) {
+  const { id } = use(params)
   const post = use(getPost(id))
 
   return <EditForm post={post} />

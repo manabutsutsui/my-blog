@@ -5,10 +5,10 @@ import type { Post } from '../../lib/types'
 import DeleteButton from './DeleteButton'
 import ReactMarkdown from 'react-markdown'
 
-type Props = {
-  params: {
-    id: string
-  }
+type PageProps = {
+  params: Promise<{
+    id: string;
+  }>;
 }
 
 async function getPost(id: string) {
@@ -25,8 +25,8 @@ async function getPost(id: string) {
   return post as Post
 }
 
-export default function BlogPost({ params }: Props) {
-  const id = use(Promise.resolve(params.id))
+export default function BlogPost({ params }: PageProps) {
+  const { id } = use(params)
   const post = use(getPost(id))
 
   return (
